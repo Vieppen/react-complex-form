@@ -1,0 +1,50 @@
+{
+    "exampleForm": {
+        "stylesheet": "default",
+        "content": {
+            "formHeader": {
+                "type": "header",
+                "text": "Example Form"
+            },
+            "name": {
+                "type": "text",
+                "placeholder": "Enter your name"
+            },
+            "button": {
+                "type": "submit",
+                "text": "Press Me"
+            },
+            "divider": {
+                "type": "horizontal-line"
+            },
+            "testCheckbox": {
+                "type": "checkbox",
+                "default": true
+            }
+        },
+        "structure": {
+            "general": {
+                "custom-stylesheet": "default",
+                "width-min": 0,
+                "width-max": 2000,
+                "submit-on-enter": true,
+                "autofocus": "name",
+                "order": [
+                    [
+                        "formHeader"
+                    ],
+                    [
+                        "name",
+                        "button"
+                    ],
+                    [
+                        "divider"
+                    ],
+                    [
+                        "testCheckbox"
+                    ]
+                ]
+            }
+        }
+    }
+}
