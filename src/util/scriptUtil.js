@@ -14,8 +14,10 @@ export async function getTextFromStream(stream) {
     let resultStr = "";
 
     while (!(nextChunk = await reader.read()).done) {
-        let partialData = nextChunk.value;
-        resultStr += utf8Decoder.decode(partialData);
+        if (nextChunk !== undefined) {
+            let partialData = nextChunk.value;
+            resultStr += utf8Decoder.decode(partialData);
+        }
     }
 
     return resultStr;
