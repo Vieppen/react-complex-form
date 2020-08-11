@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { getTextFromStream } from './util/scriptUtil';
 import { appendCSSFromString } from './util/cssUtil';
+import { emailRegex } from './util/regexp';
 
 class Form extends Component {
 
@@ -37,6 +38,7 @@ class Form extends Component {
             appendCSSFromString(".form-" + this.props.name, cssData[0]);
             this.setState({
               config: config,
+              errorData: this.getInitErrorData(config),
               cssData: cssData
             });
             this.setState({
@@ -66,7 +68,7 @@ class Form extends Component {
     // SUBMIT FORM ON ENTER LISTENER
     document.onkeydown = function (event) {
       if (event.keyCode === 13 && this.state.config.structure[this.state.currentDevice]["submit-on-enter"]) {
-        this.props.onSubmit();
+        this.handleSubmit(event);
       }
     }.bind(this);
   }
@@ -169,20 +171,48 @@ class Form extends Component {
             "form-element "
             + "form-input"
             + "input-" + obj.type + " "
-            + errorClass
+            + errorClass + " "
             + obj["custom-style"]
           }
 
           autoFocus={autofocus}
           value={(obj.text) ? obj.text : value}
           checked={value}
+          placeholder={obj.placeholder}
 
           onChange={event => changeHandler(event, name)}
-
           onSubmit={event => (obj.type === "submit") ? this.handleSubmit(event) : null}
         />
       );
 
+    }
+    // Textarea
+    else if (
+      obj.type === "textarea"
+    ) {
+
+      let errorClass = "";
+      if (error) errorClass = "form-input-error form-input-" + obj.type + "-error";
+
+      return (
+        <textarea
+          key={name}
+          type={obj.type}
+
+          className={
+            "form-element "
+            + "form-input "
+            + "form-input-textarea "
+            + errorClass + " "
+            + obj["custom-style"]}
+
+          autoFocus={autofocus}
+          placeholder={obj.placeholder}
+          value={value}
+
+          onChange={event => this.handleInput(event, name)}
+        />
+      );
     }
     // Headers and Labels
     else if (
@@ -229,15 +259,15 @@ class Form extends Component {
     if (this.state.error) {
       if (this.props.errorDisplay !== null) return this.props.errorDisplay;
       return <div>An error occured. Please reload the page.</div>
-
-      // Loading Rendering
-    } else if (this.state.config === null) {
+    }
+    // Loading Rendering
+    else if (this.state.config === null) {
       return (
         <div className={"form-" + this.props.name} />
       );
-
-      // Form Rendering
-    } else {
+    }
+    // Form Rendering
+    else {
 
       let content = this.state.config.content;
       let structure = this.state.config.structure[this.state.currentDevice];
@@ -259,7 +289,7 @@ class Form extends Component {
                           field,
                           content[field],
                           this.props.data[field],
-                          //this.state.errorData[field],
+                          this.state.errorData[field],
                           (field === structure.autofocus)
                           //this.state.eventData.actions
                         );
@@ -276,7 +306,16 @@ class Form extends Component {
   }
   // RENDER END -----------------------------------------------------------------------------------
 
-  // STATIC DATA FUNCTIONS ------------------------------------------------------------------------
+  // DATA FUNCTIONS ------------------------------------------------------------------------
+
+  getInitErrorData(config) {
+    let errorData = {};
+    for (let field in config.content) {
+      errorData[field] = false;
+    }
+    return errorData;
+  }
+
   static updateFormData(dataIn, field, value) {
     let data = dataIn;
     data[field] = value;
@@ -316,7 +355,7 @@ function formError(type, value) {
     return false;
 
     // TEXT FIELD
-  } else if (type === "text" || type === "password") {
+  } else if (type === "text" || type === "password" || type === "textarea") {
     if (value === "")
       return true;
     return false;
