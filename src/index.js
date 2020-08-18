@@ -169,8 +169,8 @@ class Form extends Component {
 
           className={
             "form-element "
-            + "form-input"
-            + "input-" + obj.type + " "
+            + "form-input "
+            + "form-input-" + obj.type + " "
             + errorClass + " "
             + obj["custom-style"]
           }
