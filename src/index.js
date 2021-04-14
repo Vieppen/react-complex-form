@@ -27,10 +27,12 @@ class Form extends Component {
   componentDidMount() {
 
     // Load Form Config File
-    fetch("FormManager/formConfig.json")
+    fetch(process.env.PUBLIC_URL + '/FormManager/formConfig.json')
       .then(response => response.json())
       .then(obj => {
+        console.log(obj)
         let config = obj[this.props.name];
+        //console.log(config)
 
         // Load CSS FILES from config and apply main CSS file
         loadFormCSS(config)
@@ -325,7 +327,9 @@ class Form extends Component {
   static async getEmptyFormData(formName) {
     let data = {};
 
-    let response = await fetch("FormManager/formConfig.json");
+    //console.log(data);
+
+    let response = await fetch(process.env.PUBLIC_URL + '/FormManager/formConfig.json');
     let obj = await response.json();
 
     let config = obj[formName];
@@ -337,6 +341,7 @@ class Form extends Component {
       data[field] = defaultValue;
     }
 
+    //console.log(data)
     return data;
 
   }
