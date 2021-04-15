@@ -228,7 +228,7 @@ class Form extends Component {
             + obj["custom-style"]
           }
         >
-          {obj.text}Someting here
+          {obj.text}
         </span>
       );
     }
