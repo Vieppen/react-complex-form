@@ -78,7 +78,7 @@ class Form extends Component {
 
   // FORM STATE HANDLING FUNCTIONS -------------------------------------------------------
   getCurrentDevice() {
-    for (let device in this.state.config.structure) {
+    for (let device in this.state.config?.structure) {
       if (
         window.screen.width >= this.state.config.structure[device]["width-min"] &&
         window.screen.width < this.state.config.structure[device]["width-max"]) {
@@ -101,9 +101,7 @@ class Form extends Component {
     let valid = true;
 
     for (let field in content) {
-
       if (!content[field].optional) {
-
         error[field] = formError(content[field].type, data[field]);
         if (error[field]) valid = false;
 
@@ -148,11 +146,11 @@ class Form extends Component {
 
     // ALL INPUT FIELDS
     if (
-      obj.type === "text" ||
-      obj.type === "email" ||
-      obj.type === "password" ||
-      obj.type === "checkbox" ||
-      obj.type === "submit"
+      obj?.type === "text" ||
+      obj?.type === "email" ||
+      obj?.type === "password" ||
+      obj?.type === "checkbox" ||
+      obj?.type === "submit"
     ) {
 
       let errorClass = "";
@@ -162,7 +160,7 @@ class Form extends Component {
       if (obj.type === "checkbox")
         changeHandler = this.toggleCheckbox;
       else if (obj.type === "submit")
-        changeHandler === null;
+        changeHandler = null;
 
       return (
         <input
@@ -190,7 +188,7 @@ class Form extends Component {
     }
     // Textarea
     else if (
-      obj.type === "textarea"
+      obj?.type === "textarea"
     ) {
 
       let errorClass = "";
@@ -218,8 +216,8 @@ class Form extends Component {
     }
     // Headers and Labels
     else if (
-      obj.type === "header" ||
-      obj.type === "label"
+      obj?.type === "header" ||
+      obj?.type === "label"
     ) {
       return (
         <span
@@ -230,21 +228,21 @@ class Form extends Component {
             + obj["custom-style"]
           }
         >
-          {obj.text}
+          {obj.text}Someting here
         </span>
       );
     }
     // Horizontal Line
     else if (
-      obj.type === "horizontal-line"
+      obj?.type === "horizontal-line"
     ) {
       return (
         <hr
           key={name}
           className={
             "form-element "
-            + "horizontal-line "
-            + obj["custom-style"]
+            + "form-horizontal-line "
+            + obj["custom-style"]?.value
           }
         />
       );

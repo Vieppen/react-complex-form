@@ -6,7 +6,7 @@ export function appendCSSFromString(selector, cssString) {
         el.type = "text/css";
         el.appendChild(document.createTextNode(cssString));
 
-        document.querySelector(selector).appendChild(el);
+        document.querySelector(selector)?.appendChild(el);
     })
 }
 
