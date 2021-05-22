@@ -1,0 +1,28 @@
+
+.form-row-wrapper {
+    display: flex;
+}
+
+.form-input-textarea {
+    min-width: 33%;
+}
+
+.input-things {
+    background: green
+}
+
+/* .some-example-common-class {
+    border: 1px solid blue;
+} */
+
+.form-element-name {
+    color: white;
+}
+
+.form-input-textarea {
+    resize: none;
+}
+
+.form-horizontal-line {
+    width: 80%;
+}

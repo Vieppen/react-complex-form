@@ -4,6 +4,14 @@ import { getTextFromStream } from './util/scriptUtil';
 import { appendCSSFromString } from './util/cssUtil';
 import { emailRegex } from './util/regexp';
 
+import logoPaypal from './assets/paypal.svg'
+
+import Form2 from './index2'
+export { Form2 }
+
+import { getFormValue, getFormValues } from './util/storageUtil'
+export { getFormValue, getFormValues }
+
 class Form extends Component {
 
   // CONSTRUCTOR -----------------------------------------------------------
@@ -30,7 +38,6 @@ class Form extends Component {
     fetch(process.env.PUBLIC_URL + '/FormManager/formConfig.json')
       .then(response => response.json())
       .then(obj => {
-        console.log(obj)
         let config = obj[this.props.name];
         //console.log(config)
 
@@ -129,6 +136,15 @@ class Form extends Component {
     this.handleChange(field, event.target.checked);
   }
 
+  selectorOnClick(event, field) {
+    for (let objName in this.state.config.content) {
+      if (this.state.config.content[objName].type === "selector") {
+        this.handleChange(objName, false)
+      }
+    }
+    this.handleChange(field, true)
+  }
+
   handleSubmit(event) {
     event.preventDefault();
 
@@ -213,6 +229,36 @@ class Form extends Component {
           onChange={event => this.handleInput(event, name)}
         />
       );
+    }
+    // Custom Selector
+    else if (
+      obj?.type === "selector"
+    ) {
+      let errorClass = ""
+      if (error) errorClass = "form-selector-error"
+
+      let activeClass = ""
+      if (this.props.data[name] === true) activeClass = "form-selector-active"
+
+      return (
+        <div
+          key={name}
+          className={`form-element form-selector ${errorClass} ${activeClass}`}
+          onClick={event => this.selectorOnClick(event, name)}
+        >
+          {obj.preset === "paypal" &&
+            <img src={logoPaypal} alt="Paypal Logo"
+              className="form-selector-image"
+            />}
+          {obj.preset === "credit-card" &&
+            <div>
+              <div className="form-selector-header">Credit Card</div>
+              <div className="form-selector-text">
+                Visa, Mastercard, American Express
+              </div>
+            </div>}
+        </ div>
+      )
     }
     // Headers and Labels
     else if (

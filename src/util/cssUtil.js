@@ -1,4 +1,6 @@
 
+// DEPRECATED
+
 export function appendCSSFromString(selector, cssString) {
     return new Promise(function () {
 
