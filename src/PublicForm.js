@@ -4,8 +4,7 @@ import FieldRenderer from './fields/FieldRenderer'
 import { ThisFormProvider } from './context/ThisFormContext'
 import { getConfigData } from './util/configUtil'
 
-
-export default function Form2({ name, customError }) {
+export default function Form({ name, customError, onSubmit, context }) {
 
     const [config, setConfig] = useState(null)      // Contains the form config json
     const [error, setError] = useState('')          // Contains the standard error message to be displayed in case of an error 
@@ -22,7 +21,15 @@ export default function Form2({ name, customError }) {
 
 
     function handleSubmit(event) {
+        event.preventDefault()
 
+        // if error checking is on
+        // perform validity check !!!
+
+        // then execute submit method
+        onSubmit?.()
+
+        // alternatively, perform onSubmit event as defined by config !!!
     }
 
     // RENDER LOGIC ------------------------------------------------------------------

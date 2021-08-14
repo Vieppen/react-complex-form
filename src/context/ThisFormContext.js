@@ -5,7 +5,7 @@ import { getEmptyFormValue } from '../util/configUtil'
 const ThisFormContext = React.createContext()
 export default ThisFormContext
 
-export function ThisFormProvider({ children, formName, formConfig }) {
+export function ThisFormProvider({ children, formName, formConfig, setExtern }) {
 
     const [value, setValue] = useState(
         initiateStorage(formName, formConfig.storage, getEmptyFormValue(formConfig)))
@@ -14,6 +14,7 @@ export function ThisFormProvider({ children, formName, formConfig }) {
         let tempValue = { ...value }
         tempValue[fieldName] = fieldValue
         setValue(tempValue)
+        setExtern(tempValue)
         updateStorage(formName, formConfig.storage, tempValue)  // using the value state causes a weird synchronization bug with checkboxes that are checked on default
     }
 

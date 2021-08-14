@@ -1,52 +1,33 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import Form from 'vieppen-form'
+import { PublicForm, ContextForm, createContextForm, FormProvider, getFormValue, getFormValues } from 'vieppen-form'
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+import './formDefault.css'
+import Inner from './Inner'
 
-    this.handleFormChange = this.handleFormChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+import exampleConfig from './exampleForms/exampleForm.json'
 
-    this.state = {
-      formData: null
-    }
-  }
+export const exampleForm = createContextForm(exampleConfig)
 
-  componentDidMount() {
-    Form.getEmptyFormData("exampleForm")
-      .then(data => {
-        this.setState({
-          formData: data
-        });
-      })
-  }
+export default function App() {
 
-  handleFormChange(field, value, eventData) {
-    this.setState({
-      formData: Form.updateFormData(this.state.formData, field, value)
-    });
-  }
+    console.log(getFormValues("exampleForm"))
+    console.log(getFormValue("exampleForm", "message"))
 
-  handleFormSubmit(valid) {
-    console.log(valid);
-  }
-
-  render() {
-    if (this.state.formData) {
-      return (
-        <Form
-          name="exampleForm"
-          data={this.state.formData}
-          checkValidity={true}
-          onChange={this.handleFormChange}
-          onSubmit={this.handleFormSubmit}
-        />
-      );
-    }
-    return null;
-  }
+    return (
+        <div>
+            <FormProvider context={exampleForm}>
+                <Inner />
+                <ContextForm
+                    form={exampleForm}
+                // customError={<div>Im a custom loading error.</div>}
+                />
+            </FormProvider>
+            <br />
+            Same form using the public import method:
+            <PublicForm
+                name='exampleForm'
+            />
+        </div>
+    )
 }
-
-export default App
