@@ -2,22 +2,19 @@ import React, { useState } from 'react'
 
 import FieldRenderer from './fields/FieldRenderer'
 import { ThisFormProvider } from './context/ThisFormContext'
-import { getPublicConfigData } from './util/configUtil'
+import { useForm } from './context/DataContext'
 
-export default function Form({ name, customError, onSubmit, context }) {
 
-    const [config, setConfig] = useState(null)      // Contains the form config json
-    const [error, setError] = useState('')          // Contains the standard error message to be displayed in case of an error 
+export default function Form({ form }) {
 
-    // Load Config on start
-    if (!config) {
-        getPublicConfigData(name)
-            .then(initConfig => setConfig(initConfig))
-            .catch(e => {
-                console.log(e)
-                setError('An error occured while loading a form.')
-            })
-    }
+    if (!form.use())
+        return <React.Fragment></React.Fragment>
+
+
+    const { config, value, setValue } = form.use()
+
+    console.log(form.use())
+    const [error, setError] = useState('')      // Contains the standard error message to be displayed in case of an error 
 
 
     function handleSubmit(event) {
@@ -57,6 +54,7 @@ export default function Form({ name, customError, onSubmit, context }) {
         <ThisFormProvider
             formName={name}
             formConfig={config}
+            setExtern={form.use().setValue}
         >
             <div className={`form-${name} ${config.commonClass || ''}`}>
                 <form

@@ -15,12 +15,12 @@ npm install --save vieppen-form
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'vieppen-form'
+import Form from 'vieppen-form'
 import 'vieppen-form/dist/index.css'
 
 class Example extends Component {
   render() {
-    return <MyComponent />
+    return <Form name='exampleForm' />
   }
 }
 ```

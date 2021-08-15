@@ -1,33 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { PublicForm, ContextForm, createContextForm, FormProvider, getFormValue, getFormValues } from 'vieppen-form'
+import Form, { createForm, FormProvider, getFormValue, getFormValues } from 'vieppen-form'
 
 import './formDefault.css'
 import Inner from './Inner'
 
 import exampleConfig from './exampleForms/exampleForm.json'
 
-export const exampleForm = createContextForm(exampleConfig)
+export const exampleForm1 = createForm(exampleConfig)
+export const exampleForm2 = createForm('public:exampleForm')
 
 export default function App() {
 
-    console.log(getFormValues("exampleForm"))
-    console.log(getFormValue("exampleForm", "message"))
-
     return (
         <div>
-            <FormProvider context={exampleForm}>
+            <FormProvider forms={[exampleForm1, exampleForm2]}>
                 <Inner />
-                <ContextForm
-                    form={exampleForm}
+                <Form
+                    form={exampleForm1}
+                // customError={<div>Im a custom loading error.</div>}
+                />
+                <Form
+                    form={exampleForm2}
                 // customError={<div>Im a custom loading error.</div>}
                 />
             </FormProvider>
             <br />
             Same form using the public import method:
-            <PublicForm
-                name='exampleForm'
-            />
+            {/* <Form
+                form={exampleForm2}
+            /> */}
         </div>
     )
 }
