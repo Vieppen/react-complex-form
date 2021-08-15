@@ -1,41 +1,26 @@
 import React, { useState } from 'react'
 
 import FieldRenderer from './fields/FieldRenderer'
-import { ThisFormProvider } from './context/ThisFormContext'
-import { useForm } from './context/DataContext'
 
-
-export default function Form({ form }) {
+export default function Form({
+    form,
+    overwriteError,
+    onSubmit: regularSubmit = () => { }, overwriteSubmit
+}) {
 
     if (!form.use())
         return <React.Fragment></React.Fragment>
 
-
-    const { config, value, setValue } = form.use()
-
-    console.log(form.use())
-    const [error, setError] = useState('')      // Contains the standard error message to be displayed in case of an error 
-
-
-    function handleSubmit(event) {
-        event.preventDefault()
-
-        // if error checking is on
-        // perform validity check !!!
-
-        // then execute submit method
-        onSubmit?.()
-
-        // alternatively, perform onSubmit event as defined by config !!!
-    }
+    const { error, config, onSubmit } = form.use()
+    const { name } = config
 
     // RENDER LOGIC ------------------------------------------------------------------
 
     // Error Rendering
-    if (error) {
+    if (error.state) {
         return (
             <div className={`form-${name}`}>
-                {customError || error}
+                {overwriteError || error.message}
             </div>
         )
     }
@@ -51,34 +36,29 @@ export default function Form({ form }) {
 
     // Regular Form Rendering
     return (
-        <ThisFormProvider
-            formName={name}
-            formConfig={config}
-            setExtern={form.use().setValue}
-        >
-            <div className={`form-${name} ${config.commonClass || ''}`}>
-                <form
-                    className={`form-wrapper ${name}-wrapper ${config.commonClass || ''}`}
-                    onSubmit={event => handleSubmit(event)}
-                >
-                    {config.structure?.order?.map(row => {
-                        return (
-                            <div key={row} className={`form-row-wrapper ${name}-row-wrapper ${config.commonClass || ''}`}>
-                                {row.map(fieldName => {
-                                    return (
-                                        <FieldRenderer
-                                            key={fieldName}
-                                            fieldName={fieldName}
-                                            fieldData={config.content[fieldName]}
-                                            autofocus={(fieldName === config.structure.autofocus)}
-                                        />
-                                    )
-                                })}
-                            </div>
-                        )
-                    })}
-                </form>
-            </div>
-        </ThisFormProvider>
+        <div className={`form-${name} ${config.commonClass || ''}`}>
+            <form
+                className={`form-wrapper ${name}-wrapper ${config.commonClass || ''}`}
+                onSubmit={e => onSubmit(e, regularSubmit, overwriteSubmit)}
+            >
+                {config.structure?.order?.map(row => {
+                    return (
+                        <div key={row} className={`form-row-wrapper ${name}-row-wrapper ${config.commonClass || ''}`}>
+                            {row.map(fieldName => {
+                                return (
+                                    <FieldRenderer
+                                        form={form}
+                                        key={fieldName}
+                                        fieldName={fieldName}
+                                        fieldData={config.content[fieldName]}
+                                        autofocus={(fieldName === config.structure.autofocus)}
+                                    />
+                                )
+                            })}
+                        </div>
+                    )
+                })}
+            </form>
+        </div>
     )
 }

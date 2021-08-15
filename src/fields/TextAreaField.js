@@ -1,35 +1,35 @@
 import React from 'react'
-import ThisFormContext from '../context/ThisFormContext'
 
-export default function TextAreaField({ fieldName, fieldData, autofocus }) {
+export default function TextAreaField({ form, fieldName, fieldData, autofocus }) {
+    const { config, value, invalid, onChange } = form.use()
+
+    let errorClass = ''
+    if (invalid.includes(fieldName))
+        errorClass = `form-input-invalid form-input-${fieldData.type}-invalid`
+
     return (
-        <ThisFormContext.Consumer>
-            {form => {
-                return (
-                    <textarea
-                        className={`
-                            ${form.config.commonClass || ''} 
-                            form-element 
-                            ${form.name}-element 
-                            form-element-${fieldName} 
-                            form-input
-                            ${form.name}-input 
-                            form-input-${fieldData.type} 
-                            ${form.name}-input-${fieldData.type} 
-                            ${fieldData.customClass || ''}
-                            `}
+        <textarea
+            className={`
+                ${config.commonClass || ''} 
+                form-element 
+                ${config.name}-element 
+                form-element-${fieldName} 
+                form-input
+                ${config.name}-input 
+                form-input-${fieldData.type} 
+                ${config.name}-input-${fieldData.type} 
+                ${fieldData.customClass || ''} 
+                ${errorClass}
+                `}
 
-                        name={fieldName}
-                        autoFocus={autofocus}
+            name={fieldName}
+            autoFocus={autofocus}
 
-                        {...fieldData}
+            {...fieldData}
 
-                        value={form.value[fieldName]}
+            value={value[fieldName]}
 
-                        onChange={event => form.onChange(fieldName, event.target.value)}
-                    />
-                )
-            }}
-        </ThisFormContext.Consumer>
+            onChange={event => onChange(fieldName, event.target.value)}
+        />
     )
 }

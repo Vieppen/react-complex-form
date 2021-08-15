@@ -16,6 +16,9 @@ export function initiateStorage(formName, storageType, initValues) {
         if (sessionStorage.getItem(formName) === null)
             sessionStorage.setItem(formName, JSON.stringify(initValues))
     }
+    else {
+        return initValues
+    }
 
     return getValuesFromStorage(formName, storageType)
 }
@@ -35,6 +38,8 @@ export function getValuesFromStorage(formName, storageType) {
         values = JSON.parse(localStorage.getItem(formName))
     } else if (storageType === 'session') {
         values = JSON.parse(sessionStorage.getItem(formName))
+    } else {
+        console.warn(`You are trying to retrieve form values for form '${formName}' from ${storageType} storage with the storage type unset or 'none'.`)
     }
 
     return values

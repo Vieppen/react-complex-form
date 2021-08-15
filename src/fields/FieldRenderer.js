@@ -6,7 +6,7 @@ import SpanField from './SpanField'
 import ParagraphField from './ParagraphField'
 import HorizontalLine from './HorizontalLine'
 
-export default function FieldRenderer({ fieldName, fieldData, autofocus }) {
+export default function FieldRenderer({ form, fieldName, fieldData, autofocus }) {
 
     // Classic Input Fields
     if (['text',
@@ -25,12 +25,12 @@ export default function FieldRenderer({ fieldName, fieldData, autofocus }) {
         'search',
         'time',
         'week'].includes(fieldData?.type)) {
-        return <InputField fieldName={fieldName} fieldData={fieldData} autofocus={autofocus} />
+        return <InputField form={form} fieldName={fieldName} fieldData={fieldData} autofocus={autofocus} />
     }
 
     // Textarea
     else if (fieldData?.type === 'textarea') {
-        return <TextAreaField fieldName={fieldName} fieldData={fieldData} autofocus={autofocus} />
+        return <TextAreaField form={form} fieldName={fieldName} fieldData={fieldData} autofocus={autofocus} />
     }
 
     // // Selector
@@ -41,17 +41,17 @@ export default function FieldRenderer({ fieldName, fieldData, autofocus }) {
     // Headers, Labels and Paragraphs
     else if (['header',
         'label'].includes(fieldData?.type)) {
-        return <SpanField fieldName={fieldName} fieldData={fieldData} />
+        return <SpanField form={form} fieldName={fieldName} fieldData={fieldData} />
     }
 
     // Paragraphs
     else if (fieldData?.type === 'paragraph') {
-        return <ParagraphField fieldName={fieldName} fieldData={fieldData} />
+        return <ParagraphField form={form} fieldName={fieldName} fieldData={fieldData} />
     }
 
     // Horizontal Line
     else if (fieldData?.type === 'horizontal-line') {
-        return <HorizontalLine fieldName={fieldName} fieldData={fieldData} />
+        return <HorizontalLine form={form} fieldName={fieldName} fieldData={fieldData} />
     }
 
     return null

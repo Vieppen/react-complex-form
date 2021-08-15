@@ -1,26 +1,21 @@
 import React from 'react'
-import ThisFormContext from '../context/ThisFormContext'
 
-export default function SpanField({ fieldName, fieldData }) {
+export default function SpanField({ form, fieldName, fieldData }) {
+    const { config } = form.use()
+
     return (
-        <ThisFormContext.Consumer>
-            {form => {
-                return (
-                    <span
-                        className={`
-                        ${form.config.commonClass || ''} 
-                        form-element 
-                        ${form.name}-element 
-                        form-element-${fieldName} 
-                        form-${fieldData.type} 
-                        ${form.name}-${fieldData.type} 
-                        ${fieldData.customClass || ''}
-                        `}
-                    >
-                        {fieldData.text}
-                    </span>
-                )
-            }}
-        </ThisFormContext.Consumer>
+        <span
+            className={`
+                ${config.commonClass || ''} 
+                form-element 
+                ${config.name}-element 
+                form-element-${fieldName} 
+                form-${fieldData.type} 
+                ${config.name}-${fieldData.type} 
+                ${fieldData.customClass || ''}
+                `}
+        >
+            {fieldData.text}
+        </span>
     )
 }

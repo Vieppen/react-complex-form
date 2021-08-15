@@ -26,3 +26,8 @@
 .form-horizontal-line {
     width: 80%;
 }
+
+.form-input-invalid {
+    border: 1px solid red;
+    background-color: coral;
+}

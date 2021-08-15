@@ -1,43 +1,43 @@
 import React from 'react'
-import ThisFormContext from '../context/ThisFormContext'
 
-export default function InputField({ fieldName, fieldData, autofocus }) {
+export default function InputField({ form, fieldName, fieldData, autofocus }) {
 
-    function onChange(event, form) {
-        let value = event.target.value
-        if (fieldData.type === 'checkbox') value = event.target.checked
-        form.onChange(fieldName, value)
+    const { config, value, invalid, onChange } = form.use()
+
+    const innerOnChange = event => {
+        let newValue = event.target.value
+        if (fieldData.type === 'checkbox') newValue = event.target.checked
+        onChange(fieldName, newValue)
     }
 
+    let errorClass = ''
+    if (invalid.includes(fieldName))
+        errorClass = `form-input-invalid form-input-${fieldData.type}-invalid`
+
     return (
-        <ThisFormContext.Consumer>
-            {form => {
-                return (
-                    <input
-                        className={`
-                            ${form.config.commonClass || ''} 
-                            form-element 
-                            ${form.name}-element 
-                            form-element-${fieldName} 
-                            form-input
-                            ${form.name}-input 
-                            form-input-${fieldData.type} 
-                            ${form.name}-input-${fieldData.type} 
-                            ${fieldData.customclass || ''}
-                            `}
+        <input
+            className={`
+                ${config.commonClass || ''} 
+                form-element 
+                ${config.name}-element 
+                form-element-${fieldName} 
+                form-input
+                ${config.name}-input 
+                form-input-${fieldData.type} 
+                ${config.name}-input-${fieldData.type} 
+                ${fieldData.customclass || ''} 
+                ${errorClass}
+                `}
 
-                        name={fieldName}
-                        autoFocus={autofocus}
+            name={fieldName}
+            autoFocus={autofocus}
 
-                        {...fieldData}
+            {...fieldData}
 
-                        value={fieldData.text || form.value[fieldName]}
-                        checked={form.value[fieldName]}
+            value={fieldData.text || value[fieldName]}
+            checked={value[fieldName]}
 
-                        onChange={event => onChange(event, form)}
-                    />
-                )
-            }}
-        </ThisFormContext.Consumer>
+            onChange={innerOnChange}
+        />
     )
 }

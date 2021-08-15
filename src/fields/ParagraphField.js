@@ -1,26 +1,20 @@
 import React from 'react'
-import ThisFormContext from '../context/ThisFormContext'
 
-export default function ParagraphField({ fieldName, fieldData }) {
+export default function ParagraphField({ form, fieldName, fieldData }) {
+    const { config } = form.use()
     return (
-        <ThisFormContext.Consumer>
-            {form => {
-                return (
-                    <p
-                        className={`
-                        ${form.config.commonClass || ''} 
-                        form-element 
-                        ${form.name}-element 
-                        form-element-${fieldName} 
-                        form-${fieldData.type} 
-                        ${form.name}-${fieldData.type} 
-                        ${fieldData.customClass || ''}
-                        `}
-                    >
-                        {fieldData.text}
-                    </p>
-                )
-            }}
-        </ThisFormContext.Consumer>
+        <p
+            className={`
+                ${config.commonClass || ''} 
+                form-element 
+                ${config.name}-element 
+                form-element-${fieldName} 
+                form-${fieldData.type} 
+                ${config.name}-${fieldData.type} 
+                ${fieldData.customClass || ''}
+                `}
+        >
+            {fieldData.text}
+        </p>
     )
 }

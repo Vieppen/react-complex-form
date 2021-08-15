@@ -1,4 +1,5 @@
 {
+    "name": "bigBoyForm",
     "storage": "session",
     "commonClass": "some-example-common-class",
     "content": {
