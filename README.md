@@ -4,7 +4,7 @@
 
 > An easy, JSON-driven approach to creating complex, reusable, and freely stylable forms.
 
-[![NPM](https://img.shields.io/npm/v/vieppen-form.svg)](https://www.npmjs.com/package/vieppen-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/vieppen-form.svg)](https://www.npmjs.com/package/react-complex-form) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
