@@ -1,4 +1,5 @@
 import { STORAGE_EXCLUDES } from './storageUtil'
+import { emailRegex } from './regexp'
 
 export async function getConfig(configType, config, name, src) {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Form, { createForm, FormProvider } from 'vieppen-form'
+import Form, { createForm, FormProvider } from 'react-complex-form'
 
 import './formDefault.css'
 import Inner from './Inner'

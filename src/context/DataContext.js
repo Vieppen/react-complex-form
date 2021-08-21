@@ -140,7 +140,7 @@ export function FormProvider({ children, form = null, forms = [] }) {
 
     // Render Provider Stack
     return (
-        <Context.Provider value={{ error, config, value, invalid, onChange, onSubmit }}>
+        <Context.Provider value={{ error, config, value, setValue, invalid, onChange, onSubmit }}>
             <FormProvider forms={rest}>
                 {children}
             </FormProvider>
