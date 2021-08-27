@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function InputField({ form, fieldName, fieldData, autofocus }) {
 
-    const { config, value, invalid, onChange } = form.use()
+    const { config, value, invalid, onChange, onSubmit } = form.use()
 
     const innerOnChange = event => {
         let newValue = event.target.value
@@ -37,6 +37,7 @@ export default function InputField({ form, fieldName, fieldData, autofocus }) {
             value={fieldData.text || value[fieldName]}
             checked={value[fieldName]}
 
+            // onClick={fieldData.type === "submit" ? onSubmit : null}
             onChange={innerOnChange}
         />
     )

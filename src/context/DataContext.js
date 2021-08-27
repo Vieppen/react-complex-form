@@ -112,6 +112,8 @@ export function FormProvider({ children, form = null, forms = [] }) {
     const onSubmit = (event, regular, overwrite) => {
         event.preventDefault()
 
+        console.log("Submitting")
+
         // if error checking is on
         // perform validity check
         const newInvalid = checkFormValidity(value, config)
